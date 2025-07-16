@@ -1,0 +1,10 @@
+
+  version: 0.0
+  Resources:
+    - TargetService:
+        Type: AWS::ECS::Service
+        Properties:
+          TaskDefinition: "arn:aws:ecs:eu-central-1:ACCOUNT_ID:task-definition/FotoShopTask"
+          LoadBalancerInfo:
+            ContainerName: "FotoShopContainer"
+            ContainerPort: 8000

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{#status}}{{status}}{{/status}} Error</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .error-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .error-code {
+            font-size: 8rem;
+            font-weight: 700;
+            color: #dc3545;
+            margin-bottom: 0.5rem;
+        }
+        .error-message {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #343a40;
+        }
+        .error-description {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+        .home-btn {
+            padding: 10px 25px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+        .error-details {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            font-family: monospace;
+            max-width: 800px;
+            text-align: left;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="error-container">
+    <div class="error-code">{{status}}</div>
+    <div class="error-message">{{error}}</div>
+    <div class="error-description">
+        {{#message}}
+            {{message}}
+        {{/message}}
+        {{^message}}
+            Oops! This page is not implemented yet.
+        {{/message}}
+    </div>
+    <a href="/" class="btn btn-primary home-btn">
+        <i class="bi bi-house-door"></i> Go Back Home
+    </a>
+
+    <div id="errorDetails" class="error-details {{^showDetails}}hidden{{/showDetails}}">
+        {{#message}}<p><strong>Error:</strong> {{message}}</p>{{/message}}
+        {{#timestamp}}<p><strong>Timestamp:</strong> {{timestamp}}</p>{{/timestamp}}
+        {{#path}}<p><strong>Path:</strong> {{path}}</p>{{/path}}
+    </div>
+
+    {{#showDetailsToggle}}
+        <button onclick="toggleDetails()" class="btn btn-link mt-3">Show Details</button>
+    {{/showDetailsToggle}}
+</div>
+
+<script>
+    function toggleDetails() {
+        const details = document.getElementById('errorDetails');
+        details.classList.toggle('hidden');
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

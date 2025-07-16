@@ -1,0 +1,556 @@
+{{<base}}
+    {{$title}}Upload Image{{/title}}
+    {{$content}}
+        <section class="section px-4">
+            <div class="container">
+                <div class="upload-header has-text-centered mb-6">
+                    <h1 class="title is-1 has-text-weight-bold has-text-success">Upload New Image</h1>
+                    <h2 class="subtitle is-4 has-text-grey-light">Share your masterpiece with the world</h2>
+                    <div class="divider is-success"></div>
+                </div>
+
+                <div class="upload-card">
+                    <form id="upload-form" enctype="multipart/form-data" class="upload-form">
+                        <!-- Image Name Field -->
+                        <div class="field">
+                            <label class="label has-text-white">Image Title</label>
+                            <div class="control has-icons-left">
+                                <input class="input is-medium" type="text" name="name" placeholder="Give your image a title" required>
+                                <span class="icon is-left">
+                                    <i class="fas fa-heading"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Description Field -->
+                        <div class="field">
+                            <label class="label has-text-white">Description</label>
+                            <div class="control">
+                                <textarea class="textarea is-medium" name="description" rows="4" placeholder="Tell the story behind this image..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Featured Toggle -->
+                        <div class="field">
+                            <div class="control">
+                                <label class="checkbox featured-toggle">
+                                    <input type="checkbox" name="featured">
+                                    <span class="checkmark"></span>
+                                    <span class="label-text">Feature this image on the homepage</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- File Upload -->
+                        <div class="field">
+                            <label class="label has-text-white">Select Image</label>
+                            <div class="file-upload-box">
+                                <label class="file-upload-label">
+                                    <input type="file" name="file" id="image-upload" accept="image/*" required>
+                                    <div class="upload-content">
+                                        <div class="upload-icon">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                        </div>
+                                        <h3 class="upload-title">Drag & drop your image here</h3>
+                                        <p class="upload-subtitle">or click to browse files</p>
+                                        <p class="upload-requirements">Supports: JPG, PNG, GIF (Max 10MB)</p>
+                                    </div>
+                                    <div id="file-selected" class="file-selected">
+                                        <span class="file-icon">
+                                            <i class="fas fa-check-circle"></i>
+                                        </span>
+                                        <span id="file-name" class="file-name">No file selected</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Image Preview -->
+                        <div id="image-preview-container" class="image-preview-container">
+                            <div class="preview-header">
+                                <span>Image Preview</span>
+                                <button type="button" class="delete" onclick="resetPreview()"></button>
+                            </div>
+                            <div class="preview-frame">
+                                <img id="image-preview" class="preview-image" src="#" alt="Preview of your upload"/>
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="form-actions">
+                            <button type="reset" class="button is-light is-rounded is-medium" onclick="resetPreview()">
+                                <span class="icon">
+                                    <i class="fas fa-redo"></i>
+                                </span>
+                                <span>Reset Form</span>
+                            </button>
+                            <button type="submit" class="button is-success is-rounded is-medium submit-btn">
+                                <span class="icon">
+                                    <i class="fas fa-upload"></i>
+                                </span>
+                                <span>Upload Image</span>
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Upload Result -->
+                    <div id="upload-result" class="upload-result"></div>
+                </div>
+            </div>
+        </section>
+
+        <style>
+            /* Color Scheme */
+            :root {
+                --success: #48c774;
+                --success-light: #effaf1;
+                --success-dark: #257942;
+                --dark: #1a1a2e;
+                --darker: #121212;
+                --light: #f8f9fa;
+                --light-gray: #e9ecef;
+                --white: #ffffff;
+            }
+
+            /* Upload Header */
+            .upload-header {
+                max-width: 800px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .divider {
+                height: 4px;
+                width: 80px;
+                background: var(--success);
+                margin: 1.5rem auto;
+                border-radius: 2px;
+            }
+
+            /* Upload Card */
+            .upload-card {
+                max-width: 800px;
+                margin: 0 auto;
+                background: var(--darker);
+                border-radius: 12px;
+                padding: 2.5rem;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            /* Form Elements */
+            .upload-form .field {
+                margin-bottom: 1.75rem;
+            }
+
+            .upload-form .label {
+                color: var(--white);
+                font-weight: 500;
+                margin-bottom: 0.5rem;
+            }
+
+            .upload-form .input,
+            .upload-form .textarea {
+                background-color: rgba(255, 255, 255, 0.05);
+                border-color: rgba(255, 255, 255, 0.1);
+                color: var(--white);
+                transition: all 0.3s ease;
+            }
+
+            .upload-form .input:hover,
+            .upload-form .textarea:hover {
+                border-color: rgba(255, 255, 255, 0.3);
+            }
+
+            .upload-form .input:focus,
+            .upload-form .textarea:focus {
+                border-color: var(--success);
+                box-shadow: 0 0 0 0.125em rgba(72, 199, 116, 0.25);
+            }
+
+            .upload-form .input::placeholder,
+            .upload-form .textarea::placeholder {
+                color: rgba(255, 255, 255, 0.3);
+            }
+
+            /* Featured Toggle */
+            .featured-toggle {
+                position: relative;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                user-select: none;
+                padding-left: 2rem;
+            }
+
+            .featured-toggle input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+                height: 0;
+                width: 0;
+            }
+
+            .checkmark {
+                position: absolute;
+                left: 0;
+                height: 1.25rem;
+                width: 1.25rem;
+                background-color: rgba(255, 255, 255, 0.05);
+                border: 2px solid rgba(255, 255, 255, 0.2);
+                border-radius: 4px;
+                transition: all 0.2s ease;
+            }
+
+            .featured-toggle:hover input ~ .checkmark {
+                border-color: rgba(255, 255, 255, 0.4);
+            }
+
+            .featured-toggle input:checked ~ .checkmark {
+                background-color: var(--success);
+                border-color: var(--success);
+            }
+
+            .checkmark:after {
+                content: "";
+                position: absolute;
+                display: none;
+            }
+
+            .featured-toggle input:checked ~ .checkmark:after {
+                display: block;
+            }
+
+            .featured-toggle .checkmark:after {
+                left: 5px;
+                top: 1px;
+                width: 5px;
+                height: 10px;
+                border: solid white;
+                border-width: 0 2px 2px 0;
+                transform: rotate(45deg);
+            }
+
+            .featured-toggle .label-text {
+                color: var(--white);
+                margin-left: 0.5rem;
+            }
+
+            /* File Upload */
+            .file-upload-box {
+                margin-bottom: 1.5rem;
+            }
+
+            .file-upload-label {
+                display: block;
+                border: 2px dashed rgba(255, 255, 255, 0.2);
+                border-radius: 8px;
+                padding: 2.5rem;
+                text-align: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .file-upload-label:hover {
+                border-color: var(--success);
+                background-color: rgba(72, 199, 116, 0.05);
+            }
+
+            .file-upload-label input[type="file"] {
+                position: absolute;
+                width: 0.1px;
+                height: 0.1px;
+                opacity: 0;
+                overflow: hidden;
+                z-index: -1;
+            }
+
+            .upload-content {
+                margin-bottom: 1.5rem;
+            }
+
+            .upload-icon {
+                font-size: 2.5rem;
+                color: var(--success);
+                margin-bottom: 1rem;
+            }
+
+            .upload-title {
+                color: var(--white);
+                font-size: 1.25rem;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+            }
+
+            .upload-subtitle {
+                color: rgba(255, 255, 255, 0.7);
+                margin-bottom: 0.5rem;
+            }
+
+            .upload-requirements {
+                color: rgba(255, 255, 255, 0.5);
+                font-size: 0.875rem;
+            }
+
+            .file-selected {
+                display: inline-flex;
+                align-items: center;
+                background-color: rgba(72, 199, 116, 0.1);
+                color: var(--success);
+                padding: 0.5rem 1rem;
+                border-radius: 50px;
+                font-weight: 500;
+            }
+
+            .file-icon {
+                margin-right: 0.5rem;
+            }
+
+            /* Image Preview */
+            .image-preview-container {
+                margin-top: 2rem;
+                display: none;
+            }
+
+            .preview-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem;
+                color: var(--white);
+                font-weight: 500;
+            }
+
+            .preview-frame {
+                background-color: rgba(0, 0, 0, 0.3);
+                border-radius: 8px;
+                overflow: hidden;
+                max-height: 400px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .preview-image {
+                max-width: 100%;
+                max-height: 400px;
+                object-fit: contain;
+            }
+
+            /* Form Actions */
+            .form-actions {
+                display: flex;
+                justify-content: flex-end;
+                gap: 1rem;
+                margin-top: 2rem;
+            }
+
+            .form-actions .button {
+                min-width: 150px;
+            }
+
+            /* Upload Result */
+            .upload-result {
+                margin-top: 2rem;
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                .upload-card {
+                    padding: 1.5rem;
+                }
+
+                .file-upload-label {
+                    padding: 1.5rem;
+                }
+
+                .form-actions {
+                    flex-direction: column;
+                }
+
+                .form-actions .button {
+                    width: 100%;
+                }
+            }
+        </style>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const form = document.getElementById('upload-form');
+                const fileInput = document.getElementById('image-upload');
+                const fileNameDisplay = document.getElementById('file-name');
+                const fileSelectedDisplay = document.getElementById('file-selected');
+                const previewContainer = document.getElementById('image-preview-container');
+                const previewImage = document.getElementById('image-preview');
+                const resultDiv = document.getElementById('upload-result');
+                const submitBtn = form.querySelector('.submit-btn');
+
+                // Initially hide file selected display
+                fileSelectedDisplay.style.display = 'none';
+
+                // File input change handler
+                fileInput.addEventListener('change', function() {
+                    if (this.files && this.files[0]) {
+                        const file = this.files[0];
+
+                        // Update file name display
+                        fileNameDisplay.textContent = file.name;
+                        fileSelectedDisplay.style.display = 'inline-flex';
+
+                        // Show preview for images
+                        if (file.type.startsWith('image/')) {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                previewImage.src = e.target.result;
+                                previewContainer.style.display = 'block';
+                            }
+                            reader.readAsDataURL(file);
+                        }
+                    }
+                });
+
+                // Drag and drop functionality
+                form.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    form.classList.add('is-dragover');
+                });
+
+                form.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    form.classList.remove('is-dragover');
+                });
+
+                form.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    form.classList.remove('is-dragover');
+
+                    if (e.dataTransfer.files.length) {
+                        fileInput.files = e.dataTransfer.files;
+                        const event = new Event('change');
+                        fileInput.dispatchEvent(event);
+                    }
+                });
+
+                // Form submission
+                form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+
+                    const formData = new FormData(form);
+
+                    // Get the checkbox value
+                    const featuredCheckbox = form.querySelector('input[name="featured"]');
+                    if (featuredCheckbox) {
+                        formData.append('featured', featuredCheckbox.checked);
+                    }
+
+                    // Show loading state
+                    submitBtn.classList.add('is-loading');
+                    resultDiv.innerHTML = `
+                        <div class="notification is-info">
+                            <div class="loading-content">
+                                <span class="icon">
+                                    <i class="fas fa-circle-notch fa-spin"></i>
+                                </span>
+                                <span>Uploading your image, please wait...</span>
+                            </div>
+                            <progress class="progress is-small is-success" max="100">0%</progress>
+                        </div>
+                    `;
+
+                    try {
+                        const response = await fetch('/api/images', {
+                            method: 'POST',
+                            body: formData
+                        });
+
+                        const data = await response.json();
+
+                        if (data.success) {
+                            resultDiv.innerHTML = `
+                                <div class="notification is-success">
+                                    <button class="delete" onclick="this.parentElement.remove()"></button>
+                                    <div class="success-content">
+                                        <span class="icon">
+                                            <i class="fas fa-check-circle"></i>
+                                        </span>
+                                        <div>
+                                            <p class="title">Upload Successful!</p>
+                                            <p class="subtitle">Your image has been added to the gallery</p>
+                                        </div>
+                                    </div>
+                                    <div class="buttons mt-4">
+                                        <a href="/upload" class="button is-success is-light is-rounded">
+                                            <span class="icon">
+                                                <i class="fas fa-plus"></i>
+                                            </span>
+                                            <span>Upload Another</span>
+                                        </a>
+                                        <a href="/" class="button is-light is-rounded">
+                                            <span class="icon">
+                                                <i class="fas fa-images"></i>
+                                            </span>
+                                            <span>View Gallery</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            `;
+                            form.reset();
+                            resetPreview();
+                        } else {
+                            resultDiv.innerHTML = `
+                                <div class="notification is-danger">
+                                    <button class="delete" onclick="this.parentElement.remove()"></button>
+                                    <div class="error-content">
+                                        <span class="icon">
+                                            <i class="fas fa-exclamation-circle"></i>
+                                        </span>
+                                        <div>
+                                            <p class="title">Upload Failed</p>
+                                            <p class="subtitle">${data.error || 'Please try again'}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    } catch (error) {
+                        resultDiv.innerHTML = `
+                            <div class="notification is-danger">
+                                <button class="delete" onclick="this.parentElement.remove()"></button>
+                                <div class="error-content">
+                                    <span class="icon">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </span>
+                                    <div>
+                                        <p class="title">Network Error</p>
+                                        <p class="subtitle">${error.message}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    } finally {
+                        submitBtn.classList.remove('is-loading');
+                    }
+                });
+            });
+
+            function resetPreview() {
+                const fileInput = document.getElementById('image-upload');
+                const fileNameDisplay = document.getElementById('file-name');
+                const fileSelectedDisplay = document.getElementById('file-selected');
+                const previewContainer = document.getElementById('image-preview-container');
+                const previewImage = document.getElementById('image-preview');
+
+                fileInput.value = '';
+                fileNameDisplay.textContent = 'No file selected';
+                fileSelectedDisplay.style.display = 'none';
+                previewImage.src = '#';
+                previewContainer.style.display = 'none';
+            }
+        </script>
+    {{/content}}
+{{/base}}

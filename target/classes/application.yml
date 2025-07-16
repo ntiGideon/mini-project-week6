@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: FotoShop
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  main:
+    banner-mode: off
+  mustache:
+    prefix: classpath:/templates/
+    suffix: .mustache
+    servlet:
+      cache: false
+
+server:
+  port: 8000
+  error:
+    whitelabel:
+      enabled: false
+    path: /error
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+aws:
+  s3:
+    bucket-name: ${AWS_BUCKET_NAME}
+  region: ${AWS_REGION}
+  credentials:
+    access-key: ${AWS_ACCESS_KEY}
+    secret-key: ${AWS_SECRET_KEY}

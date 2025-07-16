@@ -1,0 +1,12 @@
+com\photoshop\fotoshop\s3\AwsProperties$Credentials.class
+com\photoshop\fotoshop\s3\AwsProperties$S3.class
+com\photoshop\fotoshop\FotoShopApplication.class
+com\photoshop\fotoshop\image\Image.class
+com\photoshop\fotoshop\s3\AwsProperties.class
+com\photoshop\fotoshop\s3\S3Config.class
+com\photoshop\fotoshop\image\ImageController.class
+com\photoshop\fotoshop\image\ImageRepository.class
+com\photoshop\fotoshop\image\ImageDto.class
+com\photoshop\fotoshop\image\ImageService.class
+com\photoshop\fotoshop\s3\S3Service.class
+com\photoshop\fotoshop\image\MustacheConfig.class

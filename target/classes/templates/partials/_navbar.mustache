@@ -1,0 +1,226 @@
+<nav class="navbar is-fixed-top has-background-dark-green" role="navigation" aria-label="main navigation" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item logo-wrapper" href="/">
+                <span class="icon is-medium mr-2">
+                    <i class="fas fa-camera-retro"></i>
+                </span>
+                <span class="logo-text">Foto-Shop</span>
+            </a>
+
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasic">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasic" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item nav-link" href="/">
+                    <span class="icon">
+                        <i class="fas fa-home"></i>
+                    </span>
+                    <span>Home</span>
+                </a>
+                <a class="navbar-item nav-link" href="/upload">
+                    <span class="icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </span>
+                    <span>Upload</span>
+                </a>
+                <a class="navbar-item nav-link" href="/gallery">
+                    <span class="icon">
+                        <i class="fas fa-images"></i>
+                    </span>
+                    <span>Gallery</span>
+                </a>
+                <a class="navbar-item nav-link" href="/featured">
+                    <span class="icon">
+                        <i class="fas fa-star"></i>
+                    </span>
+                    <span>Featured</span>
+                </a>
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <a class="button is-light is-rounded">
+                            <span class="icon">
+                                <i class="fas fa-user"></i>
+                            </span>
+                            <span>Sign In</span>
+                        </a>
+                        <a class="button is-primary is-rounded">
+                            <span class="icon">
+                                <i class="fas fa-user-plus"></i>
+                            </span>
+                            <span>Sign Up</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<style>
+
+    :root {
+        /* Primary Colors */
+        --dark-green: #1a3a1a;
+        --green: #2d5a2d;
+        --light-green: #3d7a3d;
+
+        /* Neutral Colors */
+        --black: #121212;
+        --dark-gray: #222;
+        --white: #ffffff;
+
+        /* Accents */
+        --accent-green: #4CAF50;
+
+        /* Text Colors */
+        --text-dark: var(--black);
+        --text-light: var(--white);
+        --text-green: var(--light-green);
+    }
+
+    .navbar.has-background-dark-green {
+        background-color: var(--dark-green);
+        border-bottom: 1px solid var(--green);
+    }
+
+    .navbar-item, .navbar-link {
+        color: var(--white) !important;
+    }
+
+    .navbar-item:hover, .navbar-link:hover {
+        background-color: var(--green) !important;
+    .navbar:hover {
+        box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+    }
+
+    .logo-wrapper {
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+
+    .logo-text {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: white;
+        letter-spacing: 0.5px;
+    }
+
+    .icon.is-medium {
+        font-size: 1.4rem;
+    }
+
+    .nav-link {
+        color: rgba(255,255,255,0.9) !important;
+        font-weight: 500;
+        margin: 0 0.25rem;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+        color: white !important;
+        background-color: rgba(255,255,255,0.1) !important;
+        transform: translateY(-2px);
+    }
+
+    .nav-link .icon {
+        margin-right: 0.5rem;
+    }
+
+    .navbar-burger {
+        color: white;
+        height: 4rem;
+    }
+
+    .navbar-burger span {
+        background-color: white;
+        height: 2px;
+    }
+
+    .navbar-menu {
+        background-color: transparent !important;
+    }
+
+    .button.is-light {
+        background-color: rgba(255,255,255,0.9);
+        color: #4361ee;
+        transition: all 0.3s ease;
+    }
+
+    .button.is-light:hover {
+        background-color: white;
+        transform: translateY(-2px);
+    }
+
+    .button.is-primary {
+        background-color: #f72585;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .button.is-primary:hover {
+        background-color: #b5179e;
+        transform: translateY(-2px);
+    }
+
+    /* Mobile Menu */
+    @media screen and (max-width: 1023px) {
+        .navbar-menu {
+            background-color: #3a0ca3 !important;
+            position: absolute;
+            width: 100%;
+            left: 0;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .nav-link {
+            padding: 1rem !important;
+            margin: 0 !important;
+            border-radius: 0;
+        }
+
+        .navbar-end {
+            padding: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+    }
+
+    /* Animation for mobile menu */
+    .navbar-burger {
+        transition: all 0.3s ease;
+    }
+
+    .navbar-burger.is-active {
+        transform: rotate(90deg);
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Get all "navbar-burger" elements
+        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+        // Add a click event on each of them
+        $navbarBurgers.forEach(el => {
+            el.addEventListener('click', () => {
+                // Get the target from the "data-target" attribute
+                const target = el.dataset.target;
+                const $target = document.getElementById(target);
+
+                // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                el.classList.toggle('is-active');
+                $target.classList.toggle('is-active');
+            });
+        });
+    });
+</script>

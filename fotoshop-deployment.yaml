@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fotoshop-app
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: fotoshop-app
+  template:
+    metadata:
+      labels:
+        app: fotoshop-app
+    spec:
+      containers:
+        - name: fotoshop-app
+          image: fotoshop-app:latest
+          ports:
+            - containerPort: 8000

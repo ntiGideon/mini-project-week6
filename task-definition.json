@@ -1,0 +1,40 @@
+{
+  "family": "ImageApp-Task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::767828749690:role/ImageApp-ECSTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::767828749690:role/ImageApp-ECSTaskRole",
+  "containerDefinitions": [
+    {
+      "name": "ImageApp-Container",
+      "image": "767828749690.dkr.ecr.eu-central-1.amazonaws.com/springboot-image-app:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "SPRING_PROFILES_ACTIVE",
+          "value": "production"
+        },
+        {
+          "name": "AWS_REGION",
+          "value": "eu-central-1"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/ImageApp-Task",
+          "awslogs-region": "eu-central-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}
