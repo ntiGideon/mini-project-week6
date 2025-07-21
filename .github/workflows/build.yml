@@ -18,11 +18,11 @@ jobs:
 
       - name: Check if pipeline exists
         run: |
-          if aws codepipeline get-pipeline --name FotoApp6-Pipeline --region eu-central-1; then
+          if aws codepipeline get-pipeline --name FotoApp6-Pipeline --region eu-west-1; then
             echo "Pipeline exists"
           else
             echo "Pipeline does not exist"
-            aws codepipeline list-pipelines --region eu-central-1
+            aws codepipeline list-pipelines --region eu-west-1
             exit 1
           fi
 
