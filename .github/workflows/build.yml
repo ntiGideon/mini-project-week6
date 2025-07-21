@@ -30,4 +30,4 @@ jobs:
         run: |
           aws codepipeline start-pipeline-execution \
             --name FotoApp6-Pipeline \
-            --region eu-central-1
+            --region eu-west-1
