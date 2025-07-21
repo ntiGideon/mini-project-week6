@@ -16,7 +16,18 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
 
+      - name: Check if pipeline exists
+        run: |
+          if aws codepipeline get-pipeline --name FotoApp6-Pipeline --region eu-central-1; then
+            echo "Pipeline exists"
+          else
+            echo "Pipeline does not exist"
+            aws codepipeline list-pipelines --region eu-central-1
+            exit 1
+          fi
+
       - name: Trigger CodePipeline
         run: |
           aws codepipeline start-pipeline-execution \
-            --name FotoApp6-Pipeline
+            --name FotoApp6-Pipeline \
+            --region eu-central-1
