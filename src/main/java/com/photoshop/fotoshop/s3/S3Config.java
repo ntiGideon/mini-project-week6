@@ -31,7 +31,6 @@ public class S3Config {
 
         return S3Client.builder()
                 .region(Region.of(awsProperties.getRegion()))
-                .endpointOverride(URI.create("https://s3.eu-west-1.amazonaws.com"))
                 .credentialsProvider(StaticCredentialsProvider.create(
                         AwsBasicCredentials.create(
                                 awsProperties.getCredentials().getAccessKey(),
